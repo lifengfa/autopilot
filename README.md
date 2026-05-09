@@ -38,6 +38,16 @@ export FEISHU_WEBHOOK_URL="https://open.feishu.cn/open-apis/bot/v2/hook/YOUR_WEB
 /autopilot 更新所有依赖到最新版本
 ```
 
+## ⚠️ 子 Agent 权限说明
+
+**核心限制**：`allowed-tools` 白名单只对主会话（当前 Claude）有效。通过 `Agent` 工具派生的后台子 agent 运行在**独立隔离的新会话**中，不继承父会话的权限白名单。
+
+**最佳实践**：
+- 后台子 agent 只做只读/分析工作（读文件、搜索、解析）
+- 写文件、运行脚本等写操作由**主 agent 亲自执行**
+- 向子 agent 的 prompt 注入权限声明（详见 SKILL.md）
+- 并行任务完成后，收尾步骤（索引更新、通知）由主 agent 统一执行
+
 ## 文件结构
 
 ```
@@ -46,7 +56,7 @@ autopilot/
 │   └── plugin.json          # 插件元数据
 ├── skills/
 │   └── autopilot/
-│       ├── SKILL.md          # 技能提示词
+│       ├── SKILL.md          # 技能提示词（含子 Agent 权限最佳实践）
 │       └── scripts/
 │           └── notify_feishu.py  # 飞书通知脚本
 └── README.md
