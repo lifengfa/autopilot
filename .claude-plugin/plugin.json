@@ -1,0 +1,7 @@
+{
+  "name": "autopilot",
+  "description": "Auto-approve all prompts, always select yes/first option, run to completion and notify Feishu on done or error.",
+  "author": {
+    "name": "local"
+  }
+}
